@@ -11,7 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/submit-review", async (req, res) => {
-  const { name, employeeId, categories } = req.body;
+    
+    const { name, email, employeeId, categories } = req.body;
+
 
   // 1. Generate PDF
   const doc = new PDFDocument();
@@ -23,11 +25,12 @@ app.post("/submit-review", async (req, res) => {
   doc.fontSize(18).fillColor("black").text("Employee Performance Review", { align: "center" });
   doc.moveDown(1);
 
-  // Basic Info
-  doc.fontSize(12).text(`Employee Name: ${name}`);
-  doc.text(`Employee ID: ${employeeId}`);
-  doc.moveDown(1);
 
+  // Basic Info
+    doc.fontSize(12).text(`Employee Name: ${name}`);
+    doc.text(`Employee ID: ${employeeId}`);
+    doc.text(`Email: ${email}`);  // <-- 👈 This line adds email to PDF
+    doc.moveDown(1);
   // Table Setup
   const startX = 50;
   const tableTop = doc.y;
